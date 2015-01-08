@@ -9,6 +9,9 @@ Thumbs.db
 *_i.c
 *_p.c
 *.ncb
+*.sdf
+*.opensdf
+*.vcxproj.user
 *.suo
 *.sln.docstates
 *.tlb
