@@ -80,12 +80,22 @@
   <ItemGroup>
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Process.cpp" />
+    <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="Scheduler.cpp" />
+    <ClCompile Include="Shell.cpp" />
+    <ClCompile Include="Stepper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Declarations.h" />
     <ClInclude Include="Dispatcher.h" />
+    <ClInclude Include="Shell.h" />
+    <ClInclude Include="Process.h" />
+    <ClInclude Include="ProcessDeclarations.h" />
+    <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="Registers.h" />
     <ClInclude Include="Scheduler.h" />
+    <ClInclude Include="Stepper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

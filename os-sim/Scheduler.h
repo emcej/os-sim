@@ -1,11 +1,7 @@
 #pragma once
 #include <queue>
 #include <bitset>
-
-struct Process
-{
-
-};
+#include "Process.h"
 
 class Scheduler
 {

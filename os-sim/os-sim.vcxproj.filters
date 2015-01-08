@@ -13,27 +13,75 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Processor">
+      <UniqueIdentifier>{ea513276-3727-4957-9bd2-c8a53064d381}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ProcessManager">
+      <UniqueIdentifier>{845cec55-8314-45e6-901d-929cc1773e5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ProcessManager">
+      <UniqueIdentifier>{3ce76e37-a9c3-4dfa-8c77-9607b0268777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Processor">
+      <UniqueIdentifier>{dec03f50-ad55-4334-be31-931359d38f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shell">
+      <UniqueIdentifier>{9ea36475-d5eb-4223-8ca9-52adbaff7ad6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shell">
+      <UniqueIdentifier>{c52f90a9-aa3d-491a-953d-c6f2efac33f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scheduler.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Process.cpp">
+      <Filter>Source Files\ProcessManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessManager.cpp">
+      <Filter>Source Files\ProcessManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Stepper.cpp">
+      <Filter>Source Files\ProcessManager</Filter>
     </ClCompile>
     <ClCompile Include="Dispatcher.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Processor</Filter>
+    </ClCompile>
+    <ClCompile Include="Scheduler.cpp">
+      <Filter>Source Files\Processor</Filter>
+    </ClCompile>
+    <ClCompile Include="Shell.cpp">
+      <Filter>Source Files\Shell</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Registers.h">
+    <ClInclude Include="Declarations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scheduler.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Process.h">
+      <Filter>Header Files\ProcessManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessDeclarations.h">
+      <Filter>Header Files\ProcessManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessManager.h">
+      <Filter>Header Files\ProcessManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Stepper.h">
+      <Filter>Header Files\ProcessManager</Filter>
     </ClInclude>
     <ClInclude Include="Dispatcher.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Processor</Filter>
+    </ClInclude>
+    <ClInclude Include="Registers.h">
+      <Filter>Header Files\Processor</Filter>
+    </ClInclude>
+    <ClInclude Include="Scheduler.h">
+      <Filter>Header Files\Processor</Filter>
+    </ClInclude>
+    <ClInclude Include="Shell.h">
+      <Filter>Header Files\Shell</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

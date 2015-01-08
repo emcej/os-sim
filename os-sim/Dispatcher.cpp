@@ -1,17 +1,18 @@
 #include "Dispatcher.h"
 
+ProcessManager Dispatcher::processManager;
+
 Scheduler Dispatcher::scheduler;
 Registers Dispatcher::registers;
 
-void Dispatcher::pushProcess(Process* process)
+void Dispatcher::pushProcess(std::string filename)
 {
-	scheduler.pushProcess(process);
+	scheduler.pushProcess(processManager.CreateProcess(filename));
 }
 
 void Dispatcher::run()
 {
-	//pushProcess(new Process(ERYK));
-
+	
 	while (true)
 	{
 
