@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 #include "ProcessManager.h"
 
 #include "Scheduler.h"
@@ -12,8 +13,11 @@ private:
 
 	static Scheduler scheduler;
 	static Registers registers;
+
+	static unsigned int clock;
 public:
-	static void pushProcess(std::string filename);
+	static void pushProcess(std::string);
+	static void pushProcess(Process*);
 
 	static void run();
 };

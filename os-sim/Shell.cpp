@@ -21,16 +21,23 @@ void Shell::pushProcess(std::string filename)
 
 void Shell::parse(std::string command)
 {
-	std::string cmd = command.substr(0, command.find_first_of(' '));
-
-	if (cmd == "run")
+	if (command == "run")
 		Dispatcher::run();
-	else if (cmd == "new")
+	else if (command == "new")
 	{
 		//CODE HERE
 	}
-	else if (cmd == "add")
-		pushProcess(command.substr(4, command.length()));
+	else if (command == "add")
+	{
+		std::string process;
+		std::cout << "  > ";
+		std::cin >> process;
+		Dispatcher::pushProcess(process);
+	}
+	else if (command == "dir")
+	{
+
+	}
 	//CODE HERE
 }
 

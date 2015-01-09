@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Shell">
       <UniqueIdentifier>{c52f90a9-aa3d-491a-953d-c6f2efac33f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Drive">
+      <UniqueIdentifier>{1f9fff3c-597d-4cdc-b559-5062e2771fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Drive">
+      <UniqueIdentifier>{a7ee4879-997b-47c5-bdb0-b70ba1bef0fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,9 +48,6 @@
     <ClCompile Include="ProcessManager.cpp">
       <Filter>Source Files\ProcessManager</Filter>
     </ClCompile>
-    <ClCompile Include="Stepper.cpp">
-      <Filter>Source Files\ProcessManager</Filter>
-    </ClCompile>
     <ClCompile Include="Dispatcher.cpp">
       <Filter>Source Files\Processor</Filter>
     </ClCompile>
@@ -53,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="Shell.cpp">
       <Filter>Source Files\Shell</Filter>
+    </ClCompile>
+    <ClCompile Include="DriveManager.cpp">
+      <Filter>Source Files\Drive</Filter>
+    </ClCompile>
+    <ClCompile Include="Stepper.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,9 +77,6 @@
     <ClInclude Include="ProcessManager.h">
       <Filter>Header Files\ProcessManager</Filter>
     </ClInclude>
-    <ClInclude Include="Stepper.h">
-      <Filter>Header Files\ProcessManager</Filter>
-    </ClInclude>
     <ClInclude Include="Dispatcher.h">
       <Filter>Header Files\Processor</Filter>
     </ClInclude>
@@ -82,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="Shell.h">
       <Filter>Header Files\Shell</Filter>
+    </ClInclude>
+    <ClInclude Include="DriveManager.h">
+      <Filter>Header Files\Drive</Filter>
+    </ClInclude>
+    <ClInclude Include="Stepper.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

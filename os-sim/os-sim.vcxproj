@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Dispatcher.cpp" />
+    <ClCompile Include="DriveManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
@@ -89,6 +90,7 @@
   <ItemGroup>
     <ClInclude Include="Declarations.h" />
     <ClInclude Include="Dispatcher.h" />
+    <ClInclude Include="DriveManager.h" />
     <ClInclude Include="Shell.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="ProcessDeclarations.h" />

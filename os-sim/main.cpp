@@ -1,6 +1,8 @@
-#include "Dispatcher.h"
+#include "Shell.h"
 
 int main(void)
 {
-	//Dispatcher::run();
+	Shell shell;
+	shell.wait();
+	return 0;
 }

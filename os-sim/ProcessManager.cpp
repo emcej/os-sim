@@ -2,25 +2,32 @@
 
 Process* ProcessManager::CreateProcess(std::string name, char priorityBase)
 {
+	try
+	{
 		Process *tmp = new Process(name, priorityBase);
 		processes.push_back(tmp);
 		return tmp;
+	}
+	catch (...)
+	{
+		throw std::string("Process creating went wrong");
+	}
 }
 
 void ProcessManager::TerminateProcess(unsigned int processNumber)
 {
 	if (!DoesExist(processNumber))
 	{
-		throw std::string("Process doesnt exist");
+		throw std::string("Process with ID: " + std::to_string(processNumber) + " doesnt exist");
 	}
 	else
 	{
 		std::list<Process*>::iterator i = processes.begin();
 		while (i != processes.end())
 		{
-			if (processNumber == (*i)->processNumber)
+			if (processNumber == (*i)->getProcessNumber())
 			{
-				(*i)->processState = TERMINATED_STATE;
+				(*i)->setState(Process::ProcessStates::TERMINATED_STATE);
 				delete (*i);
 				i = processes.erase(i);
 			}
@@ -36,27 +43,27 @@ Process *ProcessManager::GetProcessHandler(unsigned int processNumber)
 {
 	for (auto i : processes)
 	{
-		if (i->processNumber == processNumber) return i;
+		if (i->getProcessNumber() == processNumber) return i;
 	}
-	return NULL; //jebnac throwy zamiast tej pierdoly
+	throw std::string("There is no process with ID: " + std::to_string(processNumber));
 }
 
 Process *ProcessManager::GetCurrentProcessHandler()
 {
 	for (auto i : processes)
 	{
-		if (i->processState == RUNNING_STATE) return i;
+		if (i->getState() == Process::ProcessStates::RUNNING_STATE) return i;
 	}
-	return NULL;
+	throw std::string("There is no current process");
 }
 
 unsigned int ProcessManager::GetCurrentProcessNumber()
 {
 	for (auto i : processes)
 	{
-		if (i->processState == RUNNING_STATE) return i->processNumber;
+		if (i->getState() == Process::ProcessStates::RUNNING_STATE) return i->getProcessNumber();
 	}
-	return NULL;
+	throw std::string("There is no current process");
 }
 
 
@@ -64,26 +71,16 @@ std::string ProcessManager::GetCurrentProcessName()
 {
 	for (auto i : processes)
 	{
-		if (i->processState == RUNNING_STATE) return i->name;
+		if (i->getState() == Process::ProcessStates::RUNNING_STATE) return i->getProcessName();
 	}
-	return NULL;
+	throw std::string("There is no current process");
 }
 
 bool ProcessManager::DoesExist(unsigned int processNumber)
 {
 	for (auto i : processes)
 	{
-		if (i->processNumber == processNumber) return true;
+		if (i->getProcessNumber() == processNumber) return true;
 	}
 	return false;
-}
-
-void ProcessManager::SetPriorityClass(unsigned int processNumber, char priority)
-{
-	this->GetProcessHandler(processNumber)->priorityDynamic = priority;
-}
-
-void ProcessManager::SetPriorityClass(Process *process, char priority)
-{
-	process->priorityDynamic = priority;
 }
