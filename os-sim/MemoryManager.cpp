@@ -27,6 +27,15 @@ void PageTable::setPageLocation(unsigned char pageNumber, char location)
 	}
 }
 
+<<<<<<< HEAD
+void MemoryManager::RAMzero()
+{
+	for (int i = 0; i<16 ; ++i)
+	for (int j = 0 ; j <16 ; ++j)
+		RAM[i][j] = 0;
+}
+=======
+>>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 
 unsigned char MemoryManager::findFreeMemory()
 {
@@ -77,7 +86,11 @@ unsigned char MemoryManager::takeVictim()    // zrzuca stronice na dysk wed³ug a
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 MemoryManager::MemoryManager()
 {
+<<<<<<< HEAD
+	//RAMzero();
+=======
 
+>>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 }
 MemoryManager::~MemoryManager()
 {
@@ -130,7 +143,13 @@ unsigned char MemoryManager::allocateMemory()
 	_fifoList.push_back(frame);
 	memoryIndicator[frame] = 1;
 	pageIndicator[page] = 1;
+<<<<<<< HEAD
+	
+	short address = page << 4;
+	return address;
+=======
 	return page;
+>>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 }
 void MemoryManager::freeMemory(unsigned char pageNumber)
 {
@@ -148,6 +167,61 @@ void MemoryManager::freeMemory(unsigned char pageNumber)
 	}
 }
 
+<<<<<<< HEAD
+void MemoryManager::printRAM()
+{
+
+	std::cout << "offset:";
+	for (int i = 0; i < 16; ++i)
+	{
+		std::cout.width(4);
+		std::cout  << i;
+	}
+	std::cout << std::endl;
+
+	std::cout << " frame:  ---------------------------------------------------------------" << std::endl;
+	
+	for (int i = 0; i < 16; ++i)
+	{	
+		std::cout.width(6);
+		std::cout << std::dec << i << "|";
+		for (int j = 0; j < 16; ++j)
+		{
+			std::cout.width(4);
+			std::cout << std::hex << (int)RAM[i][j];
+		}
+		std::cout << std::endl;
+	}
+		
+}
+void MemoryManager::printPageTable()
+{
+	std::cout << " PageTable:" << std::endl;
+	std::cout << " Page | Frame" << std::endl;
+	//std::vector<std::pair<unsigned char, unsigned char>>::iterator i;
+	for (auto i : _pageTable._content)
+	{
+		std::cout.width(5);
+		std::cout << std::dec << (int)i.first;
+		std::cout << " | " ;
+		std::cout.width(3);
+		std::cout << std::dec << (int)i.second << std::endl;
+	}
+
+}
+void MemoryManager::printFifoList()
+{
+	std::cout << "Frames numbers in Fifo list: \n  FRONT "<< std::endl;
+	for (auto i : _fifoList)
+	{
+		std::cout.width(5);
+		std::cout <<std::internal << std::dec << (int)i << std::endl;
+	}
+	std::cout << "  BACK" << std::endl;
+}
+
+=======
+>>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 /*			TO DO LIST:
 			-	ogarnij adresacjê stron na dysku
 										*/	

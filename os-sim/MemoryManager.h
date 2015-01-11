@@ -2,6 +2,10 @@
 #include <utility>
 #include <vector>
 #include <bitset>
+<<<<<<< HEAD
+#include <iostream>
+=======
+>>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 
 struct PageTable
 {
@@ -15,6 +19,10 @@ class MemoryManager
 {
 private:
 	unsigned char RAM[16][16];
+<<<<<<< HEAD
+	void RAMzero();
+=======
+>>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 	
 	PageTable _pageTable;
  	std::vector<unsigned char> _fifoList;
@@ -39,5 +47,12 @@ public://///////////////////////////////////////////////////////////////////////
 
 	unsigned char allocateMemory();
 	void freeMemory(unsigned char pageNumber);
+<<<<<<< HEAD
+
+	void printRAM();
+	void printPageTable();
+	void printFifoList();
+=======
+>>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 	//void terminateProcess();
 };
