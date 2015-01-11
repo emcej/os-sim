@@ -51,7 +51,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -80,24 +80,34 @@
   <ItemGroup>
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="DriveManager.cpp" />
+    <ClCompile Include="File.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="Process.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Shell.cpp" />
+    <ClCompile Include="Split.cpp" />
     <ClCompile Include="Stepper.cpp" />
+    <ClCompile Include="User.cpp" />
+    <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Declarations.h" />
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="DriveManager.h" />
-    <ClInclude Include="Shell.h" />
+    <ClInclude Include="File.h" />
+    <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="ProcessDeclarations.h" />
     <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="Registers.h" />
     <ClInclude Include="Scheduler.h" />
+    <ClInclude Include="Shell.h" />
+    <ClInclude Include="Split.h" />
     <ClInclude Include="Stepper.h" />
+    <ClInclude Include="User.h" />
+    <ClInclude Include="UserManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

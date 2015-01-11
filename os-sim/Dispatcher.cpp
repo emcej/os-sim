@@ -26,7 +26,6 @@ void Dispatcher::run()
 
 		while (active->getQuantum() > 0)
 		{
-			//LOAD FROM MEMORY AND EXECUTE
 			std::cout << "Process " << active->getProcessName() << " running!" << std::endl;
 
 			clock++;
@@ -37,6 +36,12 @@ void Dispatcher::run()
 
 			if (active->getPriorityClass() > active->getPriorityClass())
 				active->setPriorityClass(active->getPriorityClass() - 1);
+		}
+
+		if (active->getProcessName() == "file2")
+		{
+			processManager.TerminateProcess(active->getProcessNumber());
+			continue;
 		}
 
 		active->setRegisters(registers);

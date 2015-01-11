@@ -22,11 +22,9 @@
     <Filter Include="Source Files\ProcessManager">
       <UniqueIdentifier>{3ce76e37-a9c3-4dfa-8c77-9607b0268777}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Processor">
-      <UniqueIdentifier>{dec03f50-ad55-4334-be31-931359d38f87}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Shell">
       <UniqueIdentifier>{9ea36475-d5eb-4223-8ca9-52adbaff7ad6}</UniqueIdentifier>
+      <ParseFiles>true</ParseFiles>
     </Filter>
     <Filter Include="Source Files\Shell">
       <UniqueIdentifier>{c52f90a9-aa3d-491a-953d-c6f2efac33f5}</UniqueIdentifier>
@@ -36,6 +34,15 @@
     </Filter>
     <Filter Include="Header Files\Drive">
       <UniqueIdentifier>{a7ee4879-997b-47c5-bdb0-b70ba1bef0fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Memory">
+      <UniqueIdentifier>{ddf26ff8-7347-4ee6-a1e6-c4e71074dc07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Memory">
+      <UniqueIdentifier>{68e81f9e-c986-4f96-adb4-94433a8d6f58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Processor">
+      <UniqueIdentifier>{dec03f50-ad55-4334-be31-931359d38f87}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,14 +61,29 @@
     <ClCompile Include="Scheduler.cpp">
       <Filter>Source Files\Processor</Filter>
     </ClCompile>
-    <ClCompile Include="Shell.cpp">
-      <Filter>Source Files\Shell</Filter>
-    </ClCompile>
     <ClCompile Include="DriveManager.cpp">
       <Filter>Source Files\Drive</Filter>
     </ClCompile>
     <ClCompile Include="Stepper.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryManager.cpp">
+      <Filter>Source Files\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>Source Files\Drive</Filter>
+    </ClCompile>
+    <ClCompile Include="Shell.cpp">
+      <Filter>Source Files\Shell</Filter>
+    </ClCompile>
+    <ClCompile Include="Split.cpp">
+      <Filter>Source Files\Shell</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files\Shell</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager.cpp">
+      <Filter>Source Files\Shell</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,14 +108,29 @@
     <ClInclude Include="Scheduler.h">
       <Filter>Header Files\Processor</Filter>
     </ClInclude>
-    <ClInclude Include="Shell.h">
-      <Filter>Header Files\Shell</Filter>
-    </ClInclude>
     <ClInclude Include="DriveManager.h">
       <Filter>Header Files\Drive</Filter>
     </ClInclude>
     <ClInclude Include="Stepper.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryManager.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Header Files\Drive</Filter>
+    </ClInclude>
+    <ClInclude Include="Shell.h">
+      <Filter>Header Files\Shell</Filter>
+    </ClInclude>
+    <ClInclude Include="Split.h">
+      <Filter>Header Files\Shell</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Header Files\Shell</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager.h">
+      <Filter>Header Files\Shell</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

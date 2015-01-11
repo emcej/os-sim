@@ -1,19 +1,26 @@
 #pragma once
-#include <string>
-#include <iostream>
-#include "Dispatcher.h"
 
+/*
 class Shell
 {
 private:
-	void newFile(std::string filename);
-	void deleteFile(std::string filename);
+	enum Rules
+	{
+		password,
+		name,
+		command
+	};
 
-	void enterDir(std::string directory);
+	bool CheckIfStringIsValid(std::string command, unsigned int rule);
 
-	void pushProcess(std::string filename);
+	void CreateFile(std::string filename);
+	void DeleteFile(std::string filename);
 
-	void parse(std::string command);
+	void EnterDir(std::string directory);
+
+	void PushProcess(std::string filename);
+
+	void Parse(std::string command);
 public:
-	void wait();
-};
+	void Wait();
+};*/

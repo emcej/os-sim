@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 #include "ProcessManager.h"
+#include "MemoryManager.h"
+#include "DriveManager.h"
 
 #include "Scheduler.h"
 #include "Registers.h"
@@ -10,6 +12,8 @@ class Dispatcher
 {
 private:
 	static ProcessManager processManager;
+	static MemoryManager memoryManager;
+	static DriveManager driveManager;
 
 	static Scheduler scheduler;
 	static Registers registers;
