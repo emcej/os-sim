@@ -1,6 +1,8 @@
 #include "Dispatcher.h"
 
 ProcessManager Dispatcher::processManager;
+DriveManager Dispatcher::driveManager;
+MemoryManager Dispatcher::memoryManager(&Dispatcher::driveManager);
 
 Scheduler Dispatcher::scheduler;
 Registers Dispatcher::registers;

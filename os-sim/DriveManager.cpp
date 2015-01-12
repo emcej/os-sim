@@ -19,6 +19,36 @@ std::pair<char, short> DriveManager::findFileAddress(File& file)
 	}
 	throw (std::string)"File not found!";
 }
+std::pair<char, short> DriveManager::findFileAddress(char filename[8])
+{
+	char workingSector = currentSector;
+	while (workingSector != 0x7F)
+	{
+		for (short address = 0; address < 0x200; address += 0x14)
+		{
+			if (sectors[workingSector][address] == 0x00)
+				throw (std::string)"File not found!";
+
+			std::string tempFilename1(filename);
+			std::string tempFilename2;
+			for (int i = 0; i < 8; ++i)
+			{
+				if (sectors[workingSector][address + i] == 0x00)
+					break;
+				tempFilename2 += sectors[workingSector][address + i];
+			}
+			if (tempFilename1 == tempFilename2)
+			{
+				std::pair<char, short> x;
+				x.first = workingSector;
+				x.second = address;
+				return x;
+			}
+		}
+	}
+	throw (std::string)"File not found!";
+}
+
 char DriveManager::findEmptySector()
 {
 	for (int i = 0; i < 64; ++i)
@@ -117,6 +147,7 @@ DriveManager::DriveManager()
 		for (int j = 0; j < 512; ++j)
 			sectors[i][j] = 0x00;		//Formatting entire drive
 	sectors[0][0] = 0x7F;				//Creating FAT entry for root directory
+	sectors[0][1] = 0x7F;
 
 	freeSectors.reset();
 	freeSectors[0] = 1;
@@ -146,14 +177,18 @@ DriveManager::~DriveManager() {}
 void DriveManager::createFile(char filename[8], char extension[3], bool flagReadOnly, bool flagHidden, bool flagSystem, bool flagDirectory)
 {
 	char workingSector = currentSector;
-	char address;
+	short address = 0x00;
 	do
 	{
 		bool sectorFull = true;
-
-		for (address = 0x00; address < 0x200; address += 0x15)
+		while (address < 0x200 && sectorFull)
+		{
 			if (sectors[workingSector][address] == 0x00)
 				sectorFull = false;
+			else
+				address += 0x15;
+		}
+				
 
 		if (sectorFull)
 		{
@@ -321,6 +356,50 @@ void DriveManager::editFile(File& file)
 		currentData = (int)sectors[workingSector][i++];
 	}
 }
+void DriveManager::saveToSwap(char sign, short offset)
+{
+	// Finding a file in a directory
+	std::pair<char, short> tempPair;
+	try {
+		tempPair = findFileAddress("swap");
+	}
+	catch (std::string error) {
+		throw error;
+	}
+	char workingSector = sectors[tempPair.first][tempPair.second + 0x10];
+
+	while (offset > 0x200)
+	{
+		if (sectors[0][workingSector] == 0x7F)
+			workingSector = findEmptySector();
+		else
+			workingSector = sectors[0][workingSector];
+	}
+
+	sectors[workingSector][offset] = sign;
+}
+char DriveManager::readFromSwap(short offset)
+{
+	// Finding a file in a directory
+	std::pair<char, short> tempPair;
+	try {
+		tempPair = findFileAddress("swap");
+	}
+	catch (std::string error) {
+		throw error;
+	}
+	char workingSector = sectors[tempPair.first][tempPair.second + 0x10];
+
+	while (offset > 0x200)
+	{
+		if (sectors[0][workingSector] == 0x7F)
+			throw (std::string)"Error! Offset to big! EOF!";
+		else
+			workingSector = sectors[0][workingSector];
+	}
+
+	return sectors[workingSector][offset];
+}
 
 std::vector<File> DriveManager::getDirContent()
 {
@@ -373,4 +452,32 @@ std::vector<File> DriveManager::getDirContent()
 		dirContent.push_back(currentFile);
 		}
 	return dirContent;
+}
+
+void DriveManager::showSwap()
+{
+	// Finding a file in a directory
+	std::pair<char, short> tempPair;
+	try {
+		tempPair = findFileAddress("swap");
+	}
+	catch (std::string error) {
+		throw error;
+	}
+	char workingSector = sectors[tempPair.first][tempPair.second + 0x10];
+	
+	std::cout << std::endl << " -- SWAP FILE" << std::endl;
+	std::cout << " --   0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F" << std::endl;
+	std::cout << " --------------------------------------------------------------------" << std::endl;
+	for (int i = 0x00; i < 0x200; i += 0x10)
+	{
+		std::cout.width(3);
+		std::cout << std::hex << i << " ";
+		for (int j = 0; j < 16; ++j)
+		{
+			std::cout.width(3);
+			std::cout << std::hex << (int)sectors[workingSector][j] << " ";
+		}
+		std::cout << std::endl;
+	}
 }

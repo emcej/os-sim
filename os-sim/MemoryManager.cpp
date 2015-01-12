@@ -1,24 +1,24 @@
 #include "MemoryManager.h"
 
-unsigned char PageTable::getFrameNumber(unsigned char pageNumber) //zwróæ numer ramki w której jest szukana strona, jeœli nie ma w ramie wyœlij za du¿¹ liczbê
+char PageTable::getFrameNumber(char pageNumber) //zwróæ numer ramki w której jest szukana strona, jeœli nie ma w ramie wyœlij za du¿¹ liczbê
 {
 	for (auto iter = _content.begin(); iter != _content.end(); iter++)
 	{
 		if (iter->first == pageNumber)
 			return iter->second;
 	}
-	return(255);
+	return -1;
 }
-unsigned char PageTable::getPageNumber(unsigned char frameNumber)
+char PageTable::getPageNumber(char frameNumber)
 {
 	for (auto iter = _content.begin(); iter != _content.end(); iter++)
 	{
 		if (iter->second == frameNumber)
 			return iter->first;
 	}
-	return 255;
+	return -1;
 }
-void PageTable::setPageLocation(unsigned char pageNumber, char location)
+void PageTable::setPageLocation(char pageNumber, char location)
 {
 	for (auto iter = _content.begin(); iter != _content.end(); iter++)
 	{
@@ -27,28 +27,25 @@ void PageTable::setPageLocation(unsigned char pageNumber, char location)
 	}
 }
 
-<<<<<<< HEAD
 void MemoryManager::RAMzero()
 {
 	for (int i = 0; i<16 ; ++i)
 	for (int j = 0 ; j <16 ; ++j)
 		RAM[i][j] = 0;
 }
-=======
->>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 
-unsigned char MemoryManager::findFreeMemory()
+char MemoryManager::findFreeMemory()
 {
-	for (unsigned char i = 0; i < 16; i++)
+	for (char i = 0; i < 16; i++)
 	{
 		if (!memoryIndicator[i])
 			return i;
 	}
 	return takeVictim();
 }
-unsigned char MemoryManager::findFreePage()
+char MemoryManager::findFreePage()
 {
-	for (unsigned char i = 0; i < 256; i++)
+	for (char i = 0; i < 256; i++)
 	{
 		if (!pageIndicator[i])				
 			return i;          
@@ -58,56 +55,70 @@ unsigned char MemoryManager::findFreePage()
 //-----------------------------------------------------------------------------------------------------------------------------------------//
 
 // wydaje mi siê, ¿e takow¹ funkcjê to powinien dostarczyæ mi dysk
-void MemoryManager::saveOnDisc(unsigned char pageNumber)      
+void MemoryManager::saveOnDisc(char pageNumber)      
 {
-	for (auto iter = _fifoList.begin(); iter != _fifoList.end(); iter++)
-	{
-		if (*iter == pageNumber)
-			_fifoList.erase(iter);
-	}
-	// tutaj funkcja zapisu na dysk
-	memoryIndicator[_pageTable.getFrameNumber(pageNumber)] = 0;
-	_pageTable.setPageLocation(pageNumber, 16);    // NUMERY RAMEK NA DYSKU 16+
-}
-void MemoryManager::getFromDisc(unsigned char pageNumber)
-{
+	// DISK ADDRESS
+	int addr;
+	for (addr = 0x10; addr < 0x7E; ++addr)
+		if (!memoryIndicator[addr])
+			break;
+	short location = (addr - 0x10) * 0x10;
 
-	_fifoList.push_back(_pageTable.getFrameNumber(pageNumber));           // skoro strona znowu bêdzie znajdowaæ siê w ramie to dodajê j¹ do listy przysz³ych ofiar 
-	memoryIndicator[_pageTable.getFrameNumber(pageNumber)] = 1;
+	for (int i = 0x00; i < 0x10; ++i)
+	{
+		driveManager->saveToSwap(RAM[_pageTable.getFrameNumber(pageNumber)][i], location + i);
+		RAM[_pageTable.getFrameNumber(pageNumber)][i] = 0x00;
+	}
+		
+	char x = _pageTable.getFrameNumber(pageNumber);
+	memoryIndicator[x] = 0;
+	memoryIndicator[addr] = 1;
+	_pageTable.setPageLocation(pageNumber, addr);    // NUMERY RAMEK NA DYSKU 16+
 }
-unsigned char MemoryManager::takeVictim()    // zrzuca stronice na dysk wed³ug algorytmu fifo, zwraca numer ramki, która mo¿e byæ teraz zapisana
+char MemoryManager::getFromDisc(char pageNumber)
 {
-	unsigned char frame =  _fifoList.front();
-	saveOnDisc(_pageTable.getPageNumber(frame));	// ta funkcja jeszcze nie dzia³a
+	char frame = _pageTable.getFrameNumber(pageNumber);
+	short offset = ((short)frame - 0x10) * 0x10;
+
+	char victimFrame = takeVictim();
+
+	for (int i = 0; i < 0x10; ++i)
+		RAM[victimFrame][i] = driveManager->readFromSwap(offset + i);
+	_pageTable.setPageLocation(pageNumber, victimFrame);
+	
+	memoryIndicator[frame] = 0;
+	return victimFrame;
+}
+char MemoryManager::takeVictim()    // zrzuca stronice na dysk wed³ug algorytmu fifo, zwraca numer ramki, która mo¿e byæ teraz zapisana
+{
+	char frame =  _fifoList.front();
+	saveOnDisc(_pageTable.getPageNumber(frame));
 	_fifoList.erase(_fifoList.begin());
 
 	return frame;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-MemoryManager::MemoryManager()
+MemoryManager::MemoryManager(DriveManager* driveManager)
+	: driveManager(driveManager)
 {
-<<<<<<< HEAD
 	//RAMzero();
-=======
-
->>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 }
 MemoryManager::~MemoryManager()
 {
 
 }
 
-unsigned char MemoryManager::readData(short address)    // NIEDOROBIONE 
+char MemoryManager::readData(short address)    // NIEDOROBIONE 
 {
-	unsigned char page = unsigned char((address & 0x0ff0) >> 4);
-	unsigned char offset = unsigned char(address & 0x000f);
+	char page = char((address & 0x0ff0) >> 4);
+	char offset = char(address & 0x000f);
 
 	if (_pageTable.getFrameNumber(page) < 16)
 		return RAM[_pageTable.getFrameNumber(page)][offset];
 	else
 	{
 		// znajduje ramkê na dane itd, celowo pomijam memoryIndicator poniewa¿ ta ramka i tak by³a zajêta
-		unsigned char frame = findFreeMemory();
+		char frame = findFreeMemory();
 		_pageTable.setPageLocation(page, frame);
 		_fifoList.push_back(frame);
 		
@@ -116,42 +127,30 @@ unsigned char MemoryManager::readData(short address)    // NIEDOROBIONE
 		return RAM[frame][offset];
 	}
 }
-void MemoryManager::saveData(unsigned char data, short address)
+void MemoryManager::saveData(char data, short address)
 {
-	unsigned char page = unsigned char((address & 0x0ff0) >> 4);
-	unsigned char offset = unsigned char(address & 0x000f);
+	char page = char((address & 0x0ff0) >> 4);
+	char offset = char(address & 0x000f);
 	
 	if (_pageTable.getFrameNumber(page) < 16)
 		RAM[_pageTable.getFrameNumber(page)][offset] = data;
 	else
-	{
-		
-		//++++++++++++++++funkcja wysy³aj¹ca do dysku rozkaz usuniêcia tej ramki, bo i tak tylko bym j¹ nadpisa³
-		unsigned char frame = findFreeMemory();
-		_pageTable.setPageLocation(page, frame);
-		_fifoList.push_back(frame);
-		
-		RAM[frame][offset] = data;
-	}
+		RAM[getFromDisc(page)][offset] = data;
 }
 
-unsigned char MemoryManager::allocateMemory()
+short MemoryManager::allocateMemory()
 {
-	unsigned char page = findFreePage();
-	unsigned char frame = findFreeMemory();
+	char page = findFreePage();
+	char frame = findFreeMemory();
 	_pageTable._content.push_back(std::pair<char, char>(page, frame));
 	_fifoList.push_back(frame);
 	memoryIndicator[frame] = 1;
 	pageIndicator[page] = 1;
-<<<<<<< HEAD
 	
-	short address = page << 4;
+	short address = (short)page << 4;
 	return address;
-=======
-	return page;
->>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 }
-void MemoryManager::freeMemory(unsigned char pageNumber)
+void MemoryManager::freeMemory(char pageNumber)
 {
 	for (auto i = _pageTable._content.begin(); i != _pageTable._content.end();)
 	{
@@ -167,7 +166,6 @@ void MemoryManager::freeMemory(unsigned char pageNumber)
 	}
 }
 
-<<<<<<< HEAD
 void MemoryManager::printRAM()
 {
 
@@ -198,7 +196,7 @@ void MemoryManager::printPageTable()
 {
 	std::cout << " PageTable:" << std::endl;
 	std::cout << " Page | Frame" << std::endl;
-	//std::vector<std::pair<unsigned char, unsigned char>>::iterator i;
+	//std::vector<std::pair<char, char>>::iterator i;
 	for (auto i : _pageTable._content)
 	{
 		std::cout.width(5);
@@ -220,8 +218,6 @@ void MemoryManager::printFifoList()
 	std::cout << "  BACK" << std::endl;
 }
 
-=======
->>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
 /*			TO DO LIST:
 			-	ogarnij adresacjê stron na dysku
 										*/	

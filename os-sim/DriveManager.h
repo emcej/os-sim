@@ -18,6 +18,7 @@ private:
 	char currentSector;
 
 	std::pair<char, short> findFileAddress(File& file);
+	std::pair<char, short> findFileAddress(char filename[8]);
 	char findEmptySector();
 	void moveUp(char sector, short removalAddress);
 
@@ -42,6 +43,10 @@ public:
 	void renameFile(File& file, char newFilename[8], char newExtension[3]);
 
 	void editFile(File& file);
+	void saveToSwap(char sign, short location);
+	char readFromSwap(short offset);
 
 	std::vector<File> getDirContent();
+
+	void showSwap();
 };

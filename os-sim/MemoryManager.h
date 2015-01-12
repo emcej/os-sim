@@ -2,57 +2,50 @@
 #include <utility>
 #include <vector>
 #include <bitset>
-<<<<<<< HEAD
 #include <iostream>
-=======
->>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
+#include "DriveManager.h"
 
 struct PageTable
 {
-	std::vector<std::pair<unsigned char, unsigned char>> _content;
-	unsigned char getFrameNumber(unsigned char pageNumber);
-	unsigned char getPageNumber(unsigned char frameNumber);
-	void setPageLocation(unsigned char pageNumber, char location);
+	std::vector<std::pair<char, char>> _content;
+	char getFrameNumber(char pageNumber);
+	char getPageNumber(char frameNumber);
+	void setPageLocation(char pageNumber, char location);
 };
 
 class MemoryManager
 {
 private:
-	unsigned char RAM[16][16];
-<<<<<<< HEAD
+	DriveManager* driveManager;
+
+	char RAM[16][16];
 	void RAMzero();
-=======
->>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
-	
+
 	PageTable _pageTable;
- 	std::vector<unsigned char> _fifoList;
+ 	std::vector<char> _fifoList;
 
-	std::bitset<16> memoryIndicator;
-	unsigned char findFreeMemory();
+	std::bitset<127> memoryIndicator;
+	char findFreeMemory();
 
-	std::bitset<256> pageIndicator;
-	unsigned char findFreePage();
+	std::bitset<127> pageIndicator;
+	char findFreePage();
 
 	//-----------------------------------------------------------------------------------------------------------------------------------------//
-	void saveOnDisc(unsigned char pageNumber);
-	void getFromDisc(unsigned char pageNumber);
-	unsigned char takeVictim();
+	void saveOnDisc(char pageNumber);
+	char getFromDisc(char pageNumber);
+	char takeVictim();
 	
 public://///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	MemoryManager();
+	MemoryManager(DriveManager* driveManager);
 	~MemoryManager();
 
-	unsigned char readData(short address);
-	void saveData(unsigned char data, short address);
+	char readData(short address);
+	void saveData(char data, short address);
 
-	unsigned char allocateMemory();
-	void freeMemory(unsigned char pageNumber);
-<<<<<<< HEAD
+	short allocateMemory();
+	void freeMemory(char pageNumber);
 
 	void printRAM();
 	void printPageTable();
-	void printFifoList();
-=======
->>>>>>> 9c59a0f79e361b84105be96ef9a4cc148f474e2d
-	//void terminateProcess();
+	void printFifoList();	
 };
