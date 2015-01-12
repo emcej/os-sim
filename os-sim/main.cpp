@@ -8,13 +8,13 @@ int main(void)
 	MemoryManager mem(&drv);
 	
 	short* table = new short[30];
-
-	for (int i = 0; i < 20; ++i)
+	
+	for (int i = 0; i < 17; ++i)
+	{
 		table[i] = mem.allocateMemory();
-
-	for (int i = 0; i < 20; ++i)
 		for (int j = 0; j < 16; ++j)
-			mem.saveData(i, table[j]);
+			mem.saveData(j, table[i] + j);
+	}
 
 	mem.printFifoList();
 	mem.printPageTable();

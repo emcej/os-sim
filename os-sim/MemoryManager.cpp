@@ -57,6 +57,8 @@ char MemoryManager::findFreePage()
 // wydaje mi siê, ¿e takow¹ funkcjê to powinien dostarczyæ mi dysk
 void MemoryManager::saveOnDisc(char pageNumber)      
 {
+	char frameNumber = _pageTable.getFrameNumber(pageNumber);
+
 	// DISK ADDRESS
 	int addr;
 	for (addr = 0x10; addr < 0x7E; ++addr)
@@ -66,12 +68,11 @@ void MemoryManager::saveOnDisc(char pageNumber)
 
 	for (int i = 0x00; i < 0x10; ++i)
 	{
-		driveManager->saveToSwap(RAM[_pageTable.getFrameNumber(pageNumber)][i], location + i);
-		RAM[_pageTable.getFrameNumber(pageNumber)][i] = 0x00;
+		driveManager->saveToSwap(RAM[frameNumber][i], location + i);
+		RAM[frameNumber][i] = 0x00;
 	}
 		
-	char x = _pageTable.getFrameNumber(pageNumber);
-	memoryIndicator[x] = 0;
+	memoryIndicator[frameNumber] = 0;
 	memoryIndicator[addr] = 1;
 	_pageTable.setPageLocation(pageNumber, addr);    // NUMERY RAMEK NA DYSKU 16+
 }
@@ -86,6 +87,7 @@ char MemoryManager::getFromDisc(char pageNumber)
 		RAM[victimFrame][i] = driveManager->readFromSwap(offset + i);
 	_pageTable.setPageLocation(pageNumber, victimFrame);
 	
+	_fifoList.push_back(victimFrame);
 	memoryIndicator[frame] = 0;
 	return victimFrame;
 }
@@ -132,8 +134,9 @@ void MemoryManager::saveData(char data, short address)
 	char page = char((address & 0x0ff0) >> 4);
 	char offset = char(address & 0x000f);
 	
-	if (_pageTable.getFrameNumber(page) < 16)
-		RAM[_pageTable.getFrameNumber(page)][offset] = data;
+	char frameNumber = _pageTable.getFrameNumber(page);
+	if (frameNumber < 16)
+		RAM[frameNumber][offset] = data;
 	else
 		RAM[getFromDisc(page)][offset] = data;
 }
