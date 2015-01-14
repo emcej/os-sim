@@ -144,7 +144,7 @@ char DriveManager::monthToInt(std::string month)
 DriveManager::DriveManager()
 { 
 	for (int i = 0; i < 64; ++i)
-		for (int j = 0; j < 512; ++j)
+		for (int j = 0; j < 32; ++j)
 			sectors[i][j] = 0x00;		//Formatting entire drive
 	sectors[0][0] = 0x7F;				//Creating FAT entry for root directory
 	sectors[0][1] = 0x7F;
@@ -404,7 +404,7 @@ char DriveManager::readFromSwap(short offset)
 std::vector<File> DriveManager::getDirContent()
 {
 	std::vector<File> dirContent;
-	for (int i = 0; i < 512; i += 0x15)
+	for (int i = 0; i < 32; i += 0x15)
 		if (sectors[currentSector][i] != 0x00)
 		{
 		File currentFile;

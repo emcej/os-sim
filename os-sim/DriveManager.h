@@ -11,7 +11,7 @@
 class DriveManager
 {
 private:
-	char sectors[64][512];
+	char sectors[64][32];
 	std::bitset<64> freeSectors;
 
 	std::string currentPath;
