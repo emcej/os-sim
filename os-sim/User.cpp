@@ -1,14 +1,16 @@
-/*#include "User.h"
-#include <time.h>
-#include <string>
+#include "User.h"
 
+unsigned int User::_counter = 0;
+unsigned int User::_IDcounter = 0;
 
 User::User(std::string name, std::string password)
 {
 	this->SetName(name);
 	this->SetPassword(password);
 	this->SetAccountCreationTime();
-	//this->_ID = _counter;
+	this->_ID = _IDcounter;
+	this->_permission = User::PermissionTypes::ReadWriteUser;
+	User::_IDcounter++;
 	User::_counter++;
 }
 
@@ -47,62 +49,69 @@ void User::SetPermission(char permission)
 	this->_permission = permission;
 }
 
+std::string User::GetPermissionString()
+{
+	switch (this->_permission)
+	{
+	case PermissionTypes::Admin:
+		return std::string("Admin");
+	case PermissionTypes::ReadUser:
+		return std::string("ReadUser");
+	case PermissionTypes::ReadWriteUser:
+		return std::string("ReadWriteUser");
+	case PermissionTypes::Root:
+		return std::string("Root");
+	default:
+		throw std::string("Could not get permission string");
+	}
+}
+
 unsigned int User::GetID()
 {
 	return this->_ID;
 }
 
-void User::SetSessionStartTime()
+int User::GetCounter()
 {
-	time_t seconds;
-	seconds = time(NULL);
-
-	this->_sessionStartTime = seconds;
-}
-double User::GetSessionStartTime()
-{	
-	return this->_sessionStartTime;
-}
-
-int User::GetCounter() //??
-{
-	return this->_counter;
-}
-
-void User::SetSessionDurationTime(double sessionStartTime)
-{
-	time_t seconds;
-	seconds = time(NULL);
-	seconds -= sessionStartTime;
-
-	this->_sessionDurationTime = seconds;
-}
-double User::GetSessionDurationTime()
-{
-	return this->_sessionDurationTime;
+	return User::_counter;
 }
 
 void User::SetAccountCreationTime()
 {
-	time_t timer;
-	time(&timer);
-	char * date = ctime(&timer);
+	time_t ltime;
+	char buf[100];
+	errno_t err;
 
-	this->_accountCreationTime = *date;
+	time(&ltime);
+
+	err = ctime_s(buf, 100, &ltime);
+
+	this->_accountCreationTime = buf;
 }
-char User::GetAccountCreationTime()
+std::string User::GetAccountCreationTime()
 {
 	return this->_accountCreationTime;
 }
 void User::SetLastLogTime()
 {
-	time_t timer;
-	time(&timer);
-	char * date = ctime(&timer);
+	time_t ltime;
+	char buf[100];
+	errno_t err;
 
-	this->_lastLogTime = *date;
+	time(&ltime);
+
+	err = ctime_s(buf, 100, &ltime);
+
+	this->_lastLogTime = buf;
 }
-char User::GetLastLogTime()
+std::string User::GetLastLogTime()
 {
 	return this->_lastLogTime;
-}*/
+}
+
+std::string User::ToString()
+{
+	return std::string("UserID: " + std::to_string(this->_ID) + "\n{\n\tName: " + this->_name + "\n\tPermission: " +
+		this->GetPermissionString() + "\n\tCreationTime: " + this->GetAccountCreationTime() + "\tLastLogTime: " +
+		this->GetLastLogTime() + "\n}\n");
+}

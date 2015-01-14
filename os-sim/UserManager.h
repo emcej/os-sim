@@ -1,4 +1,6 @@
-/*#pragma once
+#pragma once
+#include "User.h"
+#include <list>
 class UserManager
 {
 private:
@@ -25,28 +27,23 @@ public:
 
 	void ChangeUserName(std::string name, std::string newName);
 
-	//DONE
 	void ShowUsersList();
 	void ChangeUserPassword(
 		std::string name,
 		std::string currentPassword,
-		std::string newPassword); // jak root to nie podawaj starego hasla tylko wyjebane
+		std::string newPassword);
 	void ChangeUserPermissions(
 		std::string name,
 		char newPermission);
 	char GetUserPermissions(std::string name);
 	std::string GetUserName(unsigned int ID);
 	unsigned int GetUserID(std::string name);
-	std::string GetCurrentUserName(); // z active
+	std::string GetCurrentUserName();
 
 	double GetSessionStartTime();
 	double GetSessionDurationTime();
-	char GetAccountCreationTime();
-	char GetLastLogTime();
+	std::string GetAccountCreationTime();
+	std::string GetLastLogTime();
 
 	void ShowFullUsersList();
-
-	// TODO:
-
-
-};*/
+};

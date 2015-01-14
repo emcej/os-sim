@@ -1,4 +1,4 @@
-/*#include "UserManager.h"
+#include "UserManager.h"
 #include "User.h"
 #include <string>
 #include <iostream>
@@ -8,6 +8,7 @@ User* UserManager::root = new User("root");
 
 UserManager::UserManager()
 {
+	root->SetPermission(User::PermissionTypes::Root);
 	userList.push_back(root);
 	activeUser = nullptr;
 }
@@ -19,7 +20,7 @@ UserManager::~UserManager()
 void UserManager::CreateUser(std::string name, std::string password = "")
 {
 	if (DoesUserExist(name))
-			throw std::string("There already is user named: " + name);
+		throw std::string("There already is user named: " + name);
 
 	this->userList.push_back(new User(name, password));
 }
@@ -75,7 +76,7 @@ std::string UserManager::GetCurrentUserName()
 
 void UserManager::LogIn(std::string name, std::string password)
 {
-	if(!this->DoesUserExist(name))
+	if (!this->DoesUserExist(name))
 		throw std::string("User with name " + name + " doesnt exist");
 
 	for (auto i : userList)
@@ -85,9 +86,9 @@ void UserManager::LogIn(std::string name, std::string password)
 			char permissions = FindUserHandlerByName(name)->GetPermission();
 			if (permissions == User::PermissionTypes::Admin || permissions == User::PermissionTypes::Root)
 			{
-				this->activeUser->SetSessionDurationTime(activeUser->GetSessionStartTime());
+				//this->activeUser->SetSessionDurationTime(activeUser->GetSessionStartTime());
 				this->activeUser = i;
-				this->activeUser->SetSessionStartTime();
+				//this->activeUser->SetSessionStartTime();
 				this->activeUser->SetLastLogTime();
 				break;
 			}
@@ -95,9 +96,9 @@ void UserManager::LogIn(std::string name, std::string password)
 			{
 				if (i->GetPassword() == password)
 				{
-					this->activeUser->SetSessionDurationTime(activeUser->GetSessionStartTime());
+					//this->activeUser->SetSessionDurationTime(activeUser->GetSessionStartTime());
 					this->activeUser = i;
-					this->activeUser->SetSessionStartTime();
+					//this->activeUser->SetSessionStartTime();
 					this->activeUser->SetLastLogTime();
 					break;
 				}
@@ -164,19 +165,13 @@ void UserManager::ShowUsersList()
 
 void UserManager::ShowFullUsersList()
 {
-		std::cout << "Number of users : " << /*User::GetCounter() << std::endl;
-		std::cout << "  User ID : | name : | permission : | Account Creation : | Last log time: | Session duration time : |" << std::endl;
+	std::cout << "Number of users : " << activeUser->GetCounter() << std::endl;
 	for (auto i : userList)
 	{
-		std::cout  << 
-			i->GetID, 
-			i->GetName, 
-			i->GetPermission,
-			i->GetAccountCreationTime, 
-			i->GetLastLogTime,
-			i->GetSessionDurationTime << std::endl;
+		std::cout << i->ToString();
 	}
 }
+
 void UserManager::ChangeUserPassword(std::string name, std::string currentPassword, std::string newPassword)
 {
 	if (!DoesUserExist(name))
@@ -210,7 +205,7 @@ void UserManager::ChangeUserPermissions(std::string name, char newPermission)
 	char permissions = activeUser->GetPermission();
 
 	if (permissions == User::PermissionTypes::Admin || permissions == User::PermissionTypes::Root)
-			toChange->SetPermission(newPermission);
+		toChange->SetPermission(newPermission);
 	else
 		throw std::string("Active user is not allowed to change permission of user named: " + name);
 }
@@ -255,13 +250,12 @@ double UserManager::GetSessionDurationTime()
 	return activeUser->GetSessionDurationTime();
 }
 
-char UserManager::GetAccountCreationTime()
+std::string UserManager::GetAccountCreationTime()
 {
 	return activeUser->GetAccountCreationTime();
 }
 
-char UserManager::GetLastLogTime()
+std::string UserManager::GetLastLogTime()
 {
 	return activeUser->GetLastLogTime();
 }
-*/

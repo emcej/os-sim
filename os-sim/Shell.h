@@ -1,26 +1,36 @@
 #pragma once
+#include "UserManager.h"
+#include "Split.h"
+#include <regex>
+#include <string>
+#include <iostream>
+#include "Dispatcher.h"
 
-/*
 class Shell
 {
 private:
+	UserManager userManager;
+
 	enum Rules
 	{
 		password,
 		name,
-		command
+		command,
+		fileName,
+		number,
+		word,
+		folderName
 	};
+	std::list<std::string> OrdersDesciobsions;
+
+	char translateStrToHex(std::string val);
+	std::string translateStrToHex(char val);
 
 	bool CheckIfStringIsValid(std::string command, unsigned int rule);
 
-	void CreateFile(std::string filename);
-	void DeleteFile(std::string filename);
-
-	void EnterDir(std::string directory);
-
-	void PushProcess(std::string filename);
-
-	void Parse(std::string command);
+	bool Parse(std::string command);
 public:
+	void help();
+	Shell();
 	void Wait();
-};*/
+};

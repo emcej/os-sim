@@ -1,12 +1,14 @@
-/*#pragma once
+#pragma once
+#include <string>
+#include <time.h>
 
 class User
 {
 private:
-	static unsigned int _counter;
+	static unsigned int _counter, _IDcounter;
 	unsigned _ID;
 	double _sessionStartTime, _sessionDurationTime;
-	char _accountCreationTime, _lastLogTime;
+	std::string _accountCreationTime, _lastLogTime;
 	std::string _name;
 	std::string _password;
 	char _permission;
@@ -30,7 +32,8 @@ public:
 	std::string GetName();
 	void SetName(std::string name);
 
-	char GetPermission(); 
+	char GetPermission();
+	std::string GetPermissionString();
 	void SetPermission(char permission);
 
 	unsigned int GetID();
@@ -43,6 +46,8 @@ public:
 
 	double GetSessionStartTime();
 	double GetSessionDurationTime();
-	char GetAccountCreationTime();
-	char GetLastLogTime();
-};*/	
+	std::string  GetAccountCreationTime();
+	std::string  GetLastLogTime();
+
+	std::string ToString();
+};
