@@ -5,12 +5,17 @@
 #include <iostream>
 #include "DriveManager.h"
 
+#define FRAME_NUMBER 16	//Pewien nie jestem ale 16 bêdzie chyba górn¹ granic¹
+#define FRAME_SIZE 16	// Pewien nie jestem ale 16 bêdzie chyba górn¹ granic¹
+#define MAX_ADDRESS 127       // MAX_ADDRESS belongs to reach 0..127 included
+
 struct PageTable
 {
 	std::vector<std::pair<char, char>> _content;
 	char getFrameNumber(char pageNumber);
 	char getPageNumber(char frameNumber);
 	void setPageLocation(char pageNumber, char location);
+	void printPageTable();
 };
 
 class MemoryManager
@@ -18,19 +23,18 @@ class MemoryManager
 private:
 	DriveManager* driveManager;
 
-	char RAM[16][16];
+	char RAM[FRAME_NUMBER][FRAME_SIZE];
 	void RAMzero();
 
 	PageTable _pageTable;
  	std::vector<char> _fifoList;
 
-	std::bitset<127> memoryIndicator;
+	std::bitset<MAX_ADDRESS> memoryIndicator;
 	char findFreeMemory();
 
-	std::bitset<127> pageIndicator;
+	std::bitset<MAX_ADDRESS> pageIndicator;
 	char findFreePage();
 
-	//-----------------------------------------------------------------------------------------------------------------------------------------//
 	void saveOnDisc(char pageNumber);
 	char getFromDisc(char pageNumber);
 	char takeVictim();
